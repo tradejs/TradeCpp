@@ -24,7 +24,7 @@ protected:
 	CMainFrame();
 	DECLARE_DYNCREATE(CMainFrame)
 
-	vector<CStrategyBase*> strategies;
+	
 
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
@@ -50,14 +50,18 @@ protected:
 	afx_msg void OnApplicationLook(UINT id);
 	afx_msg void OnUpdateApplicationLook(CCmdUI* pCmdUI);
 	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
+	afx_msg void OnViewOutput();
+	afx_msg void OnViewProperty();
+//	afx_msg void OnDestroy();
+
 	DECLARE_MESSAGE_MAP()
 
 	BOOL CreateDockingWindows();
 	void SetDockingWindowIcons(BOOL bHiColorIcons);
 public:
-	afx_msg void OnViewOutput();
-	afx_msg void OnViewProperty();
-	afx_msg void OnDestroy();
+
+	
+	void OnStrategySelected(CStrategyBase* pStrategy);
 };
 
 

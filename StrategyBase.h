@@ -4,10 +4,10 @@
 struct STRATEGY_VARIABLE 
 {
 	double* pVar;
-	std::string Name;
-	std::string Description;
+	CString Name;
+	CString Description;
 };
-typedef std::vector<STRATEGY_VARIABLE>	VarList;
+//typedef std::vector<STRATEGY_VARIABLE>	VarList;
 
 
 class CStrategyBase : public CWnd
@@ -18,7 +18,7 @@ public:
 	
 protected:
 
-	VarList 	_varList;	
+	vector<unique_ptr<STRATEGY_VARIABLE> > 	_varList;	
 
 	virtual void OnReceiveData(LPRECV_PACKET packet) = 0;
 	virtual void OnRealData(LPRECV_REAL_PACKET realpacket) = 0;
@@ -36,13 +36,13 @@ public:
 
 	void Create();
 	
-	void MakeVarProperty(double* dVar, const std::string& varName, const std::string& varDescription )
+	void MakeVarProperty(double* dVar, const CString& varName, const CString& varDescription )
 	{
-		STRATEGY_VARIABLE sv;
-		sv.Name = varName;
-		sv.pVar = dVar;
-		sv.Description = varDescription;
-		_varList.push_back(sv);
+		unique_ptr<STRATEGY_VARIABLE> sv(new STRATEGY_VARIABLE);
+		sv->Name = varName;
+		sv->pVar = dVar;
+		sv->Description = varDescription;
+		_varList.push_back(move(sv));
 	}
 
 	int GetVarCount()
@@ -50,9 +50,9 @@ public:
 		return _varList.size();
 	}
 
-	STRATEGY_VARIABLE& GetVarInfo(int nIndex)
+	STRATEGY_VARIABLE* GetVarInfo(int nIndex)
 	{
-		return _varList[nIndex];
+		return _varList[nIndex].get();
 	}
 
 private:

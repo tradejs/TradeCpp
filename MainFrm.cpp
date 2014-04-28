@@ -17,6 +17,8 @@
 
 #include "MainFrm.h"
 #include "LoginDialog.h"
+#include "TradeCppDoc.h"
+#include "TradeCppView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -33,7 +35,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_WM_SETTINGCHANGE()
 	ON_COMMAND(ID_VIEW_OUTPUT, &CMainFrame::OnViewOutput)
 	ON_COMMAND(ID_VIEW_PROPERTY, &CMainFrame::OnViewProperty)
-	ON_WM_DESTROY()
+//	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 // CMainFrame 생성/소멸
@@ -93,7 +95,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// 보관된 값에 따라 비주얼 관리자 및 스타일을 설정합니다.
 	OnApplicationLook(theApp.m_nAppLook);
 
-	CLoginDialog login;
+	/*CLoginDialog login;
 
 	INT_PTR result = -1;
 	result = login.DoModal();
@@ -101,15 +103,17 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	{
 		TRACE0("로그인에 실패하였습니다.\n");
 		DestroyWindow();
-	}
+	}*/
 
-	CGoldenCrossStrategy* goldenCross = new CGoldenCrossStrategy;
-	goldenCross->Create();
-	strategies.push_back(goldenCross);
 
-	m_wndProperties.SetStrategy(goldenCross);
 
 	return 0;
+}
+
+
+void CMainFrame::OnStrategySelected(CStrategyBase* pStrategy)
+{
+	m_wndProperties.SetStrategy(pStrategy);
 }
 
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
@@ -283,16 +287,4 @@ void CMainFrame::OnViewProperty()
 		m_wndProperties.ShowPane(false, false, false);
 	else
 		m_wndProperties.ShowPane(true, false, false);
-}
-
-
-void CMainFrame::OnDestroy()
-{
-	CFrameWndEx::OnDestroy();
-
-	for (size_t i=0; i < strategies.size(); i++)
-	{
-		CStrategyBase* p = strategies.at(i);
-		delete p;
-	}
 }

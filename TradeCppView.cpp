@@ -19,8 +19,10 @@
 #include "TradeCpp.h"
 #endif
 
+#include "MainFrm.h"
 #include "TradeCppDoc.h"
 #include "TradeCppView.h"
+#include "StrategyBase.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -28,12 +30,16 @@
 
 
 // CTradeCppView
+#define IDC_LIST 4562
 
 IMPLEMENT_DYNCREATE(CTradeCppView, CView)
 
 BEGIN_MESSAGE_MAP(CTradeCppView, CView)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
+	ON_WM_CREATE()
+	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST, OnItemchangedList2)
+	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 // CTradeCppView 생성/소멸
@@ -58,7 +64,7 @@ BOOL CTradeCppView::PreCreateWindow(CREATESTRUCT& cs)
 
 // CTradeCppView 그리기
 
-void CTradeCppView::OnDraw(CDC* /*pDC*/)
+void CTradeCppView::OnDraw(CDC* pDC)
 {
 	CTradeCppDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
@@ -66,6 +72,11 @@ void CTradeCppView::OnDraw(CDC* /*pDC*/)
 		return;
 
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
+	//CPaintDC dc( this );
+	//dc.SetBkMode( TRANSPARENT );
+	CFont* pOldFont = (CFont*)pDC->SelectObject(&labelFont);
+	pDC->DrawText("트레이딩 전략 리스트", CRect( 10, 20, 500, 50 ), DT_TOP | DT_LEFT );
+	pDC->SelectObject(pOldFont);
 }
 
 void CTradeCppView::OnRButtonUp(UINT /* nFlags */, CPoint point)
@@ -104,3 +115,118 @@ CTradeCppDoc* CTradeCppView::GetDocument() const // 디버그되지 않은 버전은 인라�
 
 
 // CTradeCppView 메시지 처리기
+
+
+int CTradeCppView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CView::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	
+	listFont.CreateFont(
+	14,                        // nHeight
+	0,                         // nWidth
+	0,                         // nEscapement
+	0,                         // nOrientation
+	FW_NORMAL,                 // nWeight
+	FALSE,                     // bItalic
+	FALSE,                     // bUnderline
+	0,                         // cStrikeOut
+	HANGUL_CHARSET,              // nCharSet
+	OUT_DEFAULT_PRECIS,        // nOutPrecision
+	CLIP_DEFAULT_PRECIS,       // nClipPrecision
+	DEFAULT_QUALITY,           // nQuality
+	DEFAULT_PITCH | FF_SWISS,  // nPitchAndFamily
+	_T("Gulim"));
+
+	labelFont.CreateFont(
+	18,                        // nHeight
+	0,                         // nWidth
+	0,                         // nEscapement
+	0,                         // nOrientation
+	FW_BOLD,			       // nWeight
+	FALSE,                     // bItalic
+	FALSE,                     // bUnderline
+	0,                         // cStrikeOut
+	HANGUL_CHARSET,              // nCharSet
+	OUT_DEFAULT_PRECIS,        // nOutPrecision
+	CLIP_DEFAULT_PRECIS,       // nClipPrecision
+	DEFAULT_QUALITY,           // nQuality
+	DEFAULT_PITCH | FF_SWISS,  // nPitchAndFamily
+	_T("Gulim"));
+
+	//m_label.Create("전략 리스트", WS_CHILD|WS_VISIBLE, CRect(10, 0, 500, 50), this);
+	//m_label.SetFont(&labelFont);
+	//this->SetFont(&labelFont);
+	
+	m_list.Create(WS_CHILD|WS_VISIBLE|WS_BORDER|LVS_REPORT, CRect(10, 60, 700, 350), this, IDC_LIST);
+	// 리스트 초기화 
+	m_list.DeleteAllItems();
+
+	// 리스트 스타일 설정
+	m_list.SetExtendedStyle(LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT);
+
+	// 타이틀 삽입
+	m_list.InsertColumn(0, _T("전략명"), LVCFMT_LEFT, 140, -1);
+	m_list.InsertColumn(1, _T("상태"), LVCFMT_CENTER, 159, -1);
+	m_list.InsertColumn(2, _T("수익"), LVCFMT_CENTER, 109, -1);
+	m_list.InsertColumn(3, _T("포지션"), LVCFMT_CENTER, 109, -1);
+	m_list.InsertColumn(4, _T("알림"), LVCFMT_CENTER, 109, -1);
+
+
+	m_list.SetFont(&listFont, TRUE);
+
+	InitStrategy();
+
+	return 0;
+}
+
+void CTradeCppView::InitStrategy()
+{
+	CGoldenCrossStrategy* goldenCross = new CGoldenCrossStrategy;
+	goldenCross->Create();
+	strategies.push_back(goldenCross);
+	
+	InsertStrategy(goldenCross);
+
+
+	CGoldenCrossStrategy* goldenCross2 = new CGoldenCrossStrategy;
+	goldenCross2->Create();
+	strategies.push_back(goldenCross2);
+	
+	InsertStrategy(goldenCross2);
+
+	//m_wndProperties.SetStrategy(goldenCross);
+}
+
+
+void CTradeCppView::OnItemchangedList2(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+    NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+
+    if ((pNMListView->uChanged & LVIF_STATE) 
+        && (pNMListView->uNewState & LVNI_SELECTED))
+    {
+		CStrategyBase* pStrategy = (CStrategyBase*)m_list.GetItemData(pNMListView->iItem);
+		((CMainFrame*)AfxGetMainWnd())->OnStrategySelected(pStrategy);
+    }
+}
+
+void CTradeCppView::InsertStrategy(CStrategyBase* pStrategy)
+{
+	int itemCount = m_list.GetItemCount();
+	m_list.InsertItem(itemCount, pStrategy->GetStrategyName());
+	m_list.SetItem(itemCount, 1, LVIF_TEXT, "", 0, 0, 0, NULL );
+	m_list.SetItemData(itemCount, (DWORD_PTR)pStrategy);
+}
+
+void CTradeCppView::OnDestroy()
+{
+	CView::OnDestroy();
+
+	for (size_t i=0; i < strategies.size(); i++)
+	{
+		CStrategyBase* p = strategies.at(i);
+		delete p;
+	}
+}

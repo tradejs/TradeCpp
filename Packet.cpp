@@ -2,8 +2,8 @@
 #include "Packet.h"
 
 
-CT1102Response Packet::MakeT1102Response(LPRECV_PACKET packet)
+StockSiseResponse Packet::MakeStockSiseResponse(LPRECV_PACKET packet)
 {
-	CT1102Response response;
+	StockSiseResponse response;
 	return response;
 }

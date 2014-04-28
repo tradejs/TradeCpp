@@ -29,6 +29,7 @@ static char THIS_FILE[]=__FILE__;
 CPropertiesWnd::CPropertiesWnd()
 {
 	m_nComboHeight = 0;
+	_strategy = nullptr;
 }
 
 CPropertiesWnd::~CPropertiesWnd()
@@ -284,6 +285,8 @@ void CPropertiesWnd::SetPropListFont()
 
 void CPropertiesWnd::SetStrategy(CStrategyBase* pStrategy)
 {
+	UpdateValue();
+
 	_strategy = pStrategy;
 
 	m_wndPropList.RemoveAll();
@@ -298,10 +301,35 @@ void CPropertiesWnd::SetStrategy(CStrategyBase* pStrategy)
 	int nVarCount = pStrategy->GetVarCount();
 	for (int i=0; i<nVarCount; i++)
 	{
-		STRATEGY_VARIABLE sv = pStrategy->GetVarInfo(i);
+		STRATEGY_VARIABLE* sv = pStrategy->GetVarInfo(i);
 
-		pProp = new CMFCPropertyGridProperty(sv.Name.c_str(), (_variant_t) *sv.pVar, sv.Description.c_str(), (DWORD_PTR)sv.pVar);
+		pProp = new CMFCPropertyGridProperty(sv->Name, (_variant_t) *(sv->pVar), sv->Description, (DWORD_PTR)sv->pVar);
 		pGroup1->AddSubItem(pProp);
 	}
 	m_wndPropList.AddProperty(pGroup1);
+
+	
+}
+
+void CPropertiesWnd::UpdateValue()
+{
+	if (_strategy == nullptr)
+		return;
+
+	if (m_wndPropList.GetPropertyCount() != 2)
+		return;
+
+	CMFCPropertyGridProperty* pGroup = m_wndPropList.GetProperty(1);
+
+	int varCount = pGroup->GetSubItemsCount();
+	for (int i=0; i<varCount; i++)
+	{
+		CMFCPropertyGridProperty* pProp = pGroup->GetSubItem(i);
+		if (pProp->IsModified())
+		{
+			double* pVar = (double*)pProp->GetData();
+			*pVar = pProp->GetValue().dblVal;
+		}
+
+	}
 }

@@ -14,7 +14,7 @@
 
 #pragma once
 
-
+class CStrategyBase;
 class CTradeCppView : public CView
 {
 protected: // serialization에서만 만들어집니다.
@@ -25,6 +25,8 @@ protected: // serialization에서만 만들어집니다.
 public:
 	CTradeCppDoc* GetDocument() const;
 
+	vector<CStrategyBase*> strategies;
+
 // 작업입니다.
 public:
 
@@ -33,6 +35,9 @@ public:
 	virtual void OnDraw(CDC* pDC);  // 이 뷰를 그리기 위해 재정의되었습니다.
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 protected:
+	CFont labelFont, listFont;
+	CListCtrl m_list;
+	CStatic m_label;
 
 // 구현입니다.
 public:
@@ -43,13 +48,21 @@ public:
 #endif
 
 protected:
+	void InsertStrategy(CStrategyBase* pStrategy);
 
 // 생성된 메시지 맵 함수
 protected:
 	afx_msg void OnFilePrintPreview();
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnItemchangedList2(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnDestroy();
 	DECLARE_MESSAGE_MAP()
+
+public:
+	void InitStrategy();
+	
 };
 
 #ifndef _DEBUG  // TradeCppView.cpp의 디버그 버전
