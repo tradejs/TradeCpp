@@ -288,3 +288,19 @@ void CMainFrame::OnViewProperty()
 	else
 		m_wndProperties.ShowPane(true, false, false);
 }
+
+
+void CMainFrame::TradeLog(CString log)
+{
+	m_wndOutput.TradeLog(log);
+}
+
+void CMainFrame::NormalLog(CString log)
+{
+	m_wndOutput.NormalLog(log);
+}
+
+void CMainFrame::SignalLog(CString log)
+{
+	m_wndOutput.SignalLog(log);
+}

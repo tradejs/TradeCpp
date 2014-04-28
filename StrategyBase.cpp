@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "StrategyBase.h"
+#include "MainFrm.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -31,6 +32,20 @@ void CStrategyBase::Create()
 	LoadAllProperty();
 }
 
+void CStrategyBase::TradeLog(CString log)
+{
+	((CMainFrame*)AfxGetMainWnd())->TradeLog(log);
+}
+
+void CStrategyBase::NormalLog(CString log)
+{
+	((CMainFrame*)AfxGetMainWnd())->NormalLog(log);
+}
+
+void CStrategyBase::SignalLog(CString log)
+{
+	((CMainFrame*)AfxGetMainWnd())->SignalLog(log);
+}
 
 LRESULT CStrategyBase::OnMsgReceiveData(WPARAM wParam, LPARAM lParam)
 {

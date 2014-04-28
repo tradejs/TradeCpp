@@ -55,9 +55,9 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// 출력 창을 만듭니다.
 	const DWORD dwStyle = LBS_NOINTEGRALHEIGHT | WS_CHILD | WS_VISIBLE | WS_HSCROLL | WS_VSCROLL;
 
-	if (!m_wndOutputBuild.Create(dwStyle, rectDummy, &m_wndTabs, 2) ||
-		!m_wndOutputDebug.Create(dwStyle, rectDummy, &m_wndTabs, 3) ||
-		!m_wndOutputFind.Create(dwStyle, rectDummy, &m_wndTabs, 4))
+	if (!m_wndOutputNormal.Create(dwStyle, rectDummy, &m_wndTabs, 2) ||
+		!m_wndOutputTrade.Create(dwStyle, rectDummy, &m_wndTabs, 3) ||
+		!m_wndOutputSignal.Create(dwStyle, rectDummy, &m_wndTabs, 4))
 	{
 		TRACE0("출력 창을 만들지 못했습니다.\n");
 		return -1;      // 만들지 못했습니다.
@@ -66,18 +66,18 @@ int COutputWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	UpdateFonts();
 
 	CString strTabName;
-	BOOL bNameValid;
+	//BOOL bNameValid;
 
 	// 탭에 목록 창을 연결합니다.
-	bNameValid = strTabName.LoadString(IDS_BUILD_TAB);
-	ASSERT(bNameValid);
-	m_wndTabs.AddTab(&m_wndOutputBuild, strTabName, (UINT)0);
-	bNameValid = strTabName.LoadString(IDS_DEBUG_TAB);
-	ASSERT(bNameValid);
-	m_wndTabs.AddTab(&m_wndOutputDebug, strTabName, (UINT)1);
-	bNameValid = strTabName.LoadString(IDS_FIND_TAB);
-	ASSERT(bNameValid);
-	m_wndTabs.AddTab(&m_wndOutputFind, strTabName, (UINT)2);
+	//bNameValid = strTabName.LoadString(IDS_BUILD_TAB);
+	//ASSERT(bNameValid);
+	m_wndTabs.AddTab(&m_wndOutputNormal, "일반", (UINT)0);
+	//bNameValid = strTabName.LoadString(IDS_DEBUG_TAB);
+	//ASSERT(bNameValid);
+	m_wndTabs.AddTab(&m_wndOutputTrade, "거래로그", (UINT)1);
+	//bNameValid = strTabName.LoadString(IDS_FIND_TAB);
+	//ASSERT(bNameValid);
+	m_wndTabs.AddTab(&m_wndOutputSignal, "시그널", (UINT)2);
 
 	// 출력 탭을 더미 텍스트로 채웁니다.
 	FillBuildWindow();
@@ -116,30 +116,50 @@ void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
 
 void COutputWnd::FillBuildWindow()
 {
-	m_wndOutputBuild.AddString(_T("여기에 빌드 출력이 표시됩니다."));
-	m_wndOutputBuild.AddString(_T("출력이 목록 뷰 행에 표시되지만"));
-	m_wndOutputBuild.AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndOutputNormal.AddString(_T("여기에 일반 로그가 표시됩니다."));
 }
 
 void COutputWnd::FillDebugWindow()
 {
-	m_wndOutputDebug.AddString(_T("여기에 디버그 출력이 표시됩니다."));
-	m_wndOutputDebug.AddString(_T("출력이 목록 뷰 행에 표시되지만"));
-	m_wndOutputDebug.AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndOutputTrade.AddString(_T("여기에 트레이딩 로그가 출력 됩니다."));
 }
 
 void COutputWnd::FillFindWindow()
 {
-	m_wndOutputFind.AddString(_T("여기에 찾기 출력이 표시됩니다."));
-	m_wndOutputFind.AddString(_T("출력이 목록 뷰 행에 표시되지만"));
-	m_wndOutputFind.AddString(_T("표시 방법을 원하는 대로 변경할 수 있습니다."));
+	m_wndOutputSignal.AddString(_T("시그널이 발생할 경우 여기에 출력됩니다."));
 }
 
 void COutputWnd::UpdateFonts()
 {
-	m_wndOutputBuild.SetFont(&afxGlobalData.fontRegular);
-	m_wndOutputDebug.SetFont(&afxGlobalData.fontRegular);
-	m_wndOutputFind.SetFont(&afxGlobalData.fontRegular);
+	m_wndOutputNormal.SetFont(&afxGlobalData.fontRegular);
+	m_wndOutputTrade.SetFont(&afxGlobalData.fontRegular);
+	m_wndOutputSignal.SetFont(&afxGlobalData.fontRegular);
+}
+
+void COutputWnd::NormalLog(CString log)
+{
+	m_wndOutputNormal.AddString(log);
+
+	if (m_wndOutputNormal.GetCount() > 100000)
+		m_wndOutputNormal.DeleteString(0);
+
+}
+
+
+void COutputWnd::TradeLog(CString log)
+{
+	m_wndOutputTrade.AddString(log);
+
+	if (m_wndOutputTrade.GetCount() > 100000)
+		m_wndOutputTrade.DeleteString(0);
+}
+
+void COutputWnd::SignalLog(CString log)
+{
+	m_wndOutputSignal.AddString(log);
+
+	if (m_wndOutputSignal.GetCount() > 100000)
+		m_wndOutputSignal.DeleteString(0);
 }
 
 /////////////////////////////////////////////////////////////////////////////

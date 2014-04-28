@@ -59,6 +59,9 @@ protected:
 	BOOL CreateDockingWindows();
 	void SetDockingWindowIcons(BOOL bHiColorIcons);
 public:
+	void TradeLog(CString log);
+	void NormalLog(CString log);
+	void SignalLog(CString log);
 
 	
 	void OnStrategySelected(CStrategyBase* pStrategy);

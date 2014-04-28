@@ -55,6 +55,10 @@ public:
 		return _varList[nIndex].get();
 	}
 
+	void TradeLog(CString log);
+	void NormalLog(CString log);
+	void SignalLog(CString log);
+
 private:
 	afx_msg LRESULT OnMsgReceiveData(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnMsgRealData(WPARAM wParam, LPARAM lParam);

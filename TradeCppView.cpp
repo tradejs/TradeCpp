@@ -155,10 +155,6 @@ int CTradeCppView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	DEFAULT_PITCH | FF_SWISS,  // nPitchAndFamily
 	_T("Gulim"));
 
-	//m_label.Create("전략 리스트", WS_CHILD|WS_VISIBLE, CRect(10, 0, 500, 50), this);
-	//m_label.SetFont(&labelFont);
-	//this->SetFont(&labelFont);
-	
 	m_list.Create(WS_CHILD|WS_VISIBLE|WS_BORDER|LVS_REPORT, CRect(10, 60, 700, 350), this, IDC_LIST);
 	// 리스트 초기화 
 	m_list.DeleteAllItems();

@@ -45,9 +45,9 @@ public:
 protected:
 	CMFCTabCtrl	m_wndTabs;
 
-	COutputList m_wndOutputBuild;
-	COutputList m_wndOutputDebug;
-	COutputList m_wndOutputFind;
+	COutputList m_wndOutputNormal;
+	COutputList m_wndOutputTrade;
+	COutputList m_wndOutputSignal;
 
 protected:
 	void FillBuildWindow();
@@ -59,6 +59,10 @@ protected:
 // 구현입니다.
 public:
 	virtual ~COutputWnd();
+
+	void NormalLog(CString log);
+	void TradeLog(CString log);
+	void SignalLog(CString log);
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
