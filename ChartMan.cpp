@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "ChartMan.h"
+#include "sltime.h"
+#include "talib\ta_func.h"
 
 
 int chartIdEncrease = 0;
-CChart::CChart(const string& code, int period, CANDLE_UNIT unit) 
+CChart::CChart(const CString& code, int period, CANDLE_UNIT unit) 
 { 
 	_code = code; 
 	_period = period; 
@@ -17,7 +19,7 @@ CChart::~CChart()
 { 
 } 
 
-void CChart::AppendCandle(const sltime& time, price open, price high, price low, price close, price vol) 
+void CChart::AppendCandle(const sltime& time, double close, long vol) 
 { 
 	if (_times.size() > 5000) 
 	{ 
@@ -52,7 +54,7 @@ sltime CChart::GetCandleUntileTime(const sltime& tickTime)
 	if (_unit == CANDLE_UNIT::series_min)
 	{
 		sltime startTime(stTime.tm_year+1900, stTime.tm_mon+1, stTime.tm_mday, 9, 0, 0);
-		int candleCount = (tickTime.GetTime()-startTime.GetTime()) / (_period * 60) + 1;	//+1해야 한다.
+		int candleCount = (tickTime.GetTime() - startTime.GetTime()) / (_period * 60) + 1;	//+1해야 한다.
 		return sltime(startTime.GetTime() + (candleCount * _period * 60));
 	}
 	else  if (_unit == CANDLE_UNIT::series_day)
@@ -85,7 +87,7 @@ sltime CChart::GetCandleBeginTime(const sltime& tickTime)
 	}
 	else// if (_period < 0)
 	{
-		int candleCount = (tickTime.GetTime()-startTime.GetTime()) / (_period * 60);	//+1해야 한다.
+		int candleCount = (tickTime.GetTime() - startTime.GetTime()) / (_period * 60);	//+1해야 한다.
 		return sltime(startTime.GetTime() + (candleCount * _period * 60));
 	}
 }
@@ -109,61 +111,32 @@ shared_ptr<Candle> CChart::GetCandle(int nth)
 	return pCandle;
 }
 
-void CChart::OnTick(CUnit* pUnit)
-{
-	if (isNewCandle(pUnit->getTime()))
-	{
-		sltime beginTime = GetCandleBeginTime(pUnit->getTime());
-
-		AppendCandle(beginTime, 
-			pUnit->getpOpen()?*pUnit->getpOpen():pUnit->getClose(), 
-			pUnit->getpHigh()?*pUnit->getpHigh():pUnit->getClose(), 
-			pUnit->getpLow()?*pUnit->getpLow():pUnit->getClose(),
-			pUnit->getClose(), 0);
-
-		curUntilTime = GetCandleUntileTime(pUnit->getTime());
-	}	
-
-	_closes[_closes.size()-1] = pUnit->getClose();
-
-	price& high = _highs[_highs.size()-1];
-	if (pUnit->getpHigh() && *pUnit->getpHigh() > high)
-		high = *pUnit->getpHigh();
-
-	price& low = _lows[_lows.size()-1];
-	if (pUnit->getpLow() && *pUnit->getpLow() < low)
-		low = *pUnit->getpLow();
-
-	if (pUnit->getpVol())
-		_vols[_vols.size()-1] = *pUnit->getpVol();
-
-}
-
-
-void CChart::OnTick(const sltime& time, const price& openPrice, const price& highPrice, const price& lowPrice, const price& closePrice, const price& volPrice)
+void CChart::OnTick(const sltime& time, double price, long volume)
 {
 	if (isNewCandle(time))
 	{
 		sltime beginTime = GetCandleBeginTime(time);
 
-		AppendCandle(beginTime, openPrice, highPrice, lowPrice, closePrice, 0);
+		AppendCandle(beginTime, price, volume);
 
 		curUntilTime = GetCandleUntileTime(time);
 	}	
 
-	_closes[_closes.size()-1] = closePrice;
+	_closes[_closes.size()-1] = price;
 
-	price& phigh = _highs[_highs.size()-1];
-	if (highPrice > phigh)
-		phigh = highPrice;
+	double& high = _highs[_highs.size()-1];
+	if (close > high)
+		high = close;
 
-	price& plow = _lows[_lows.size()-1];
-	if (lowPrice < plow)
-		plow = lowPrice;
+	double& low = _lows[_lows.size()-1];
+	if (close < low)
+		low = close;
 
-	_vols[_vols.size()-1] = volPrice;
+	if (volume)
+		_vols[_vols.size()-1] = volume;
 
 }
+
 
 static double chartbuf[5000];
 bool CChart::GetAD(double* pValue, int nth)
@@ -507,7 +480,7 @@ bool CChart::GetCMO(double* pValue, int time, int nth)
 }
 
 
-bool CChart::GetDEMA(double* pValue, CandlePart part, int time, int nth)
+bool CChart::GetDEMA(double* pValue, CANDLE_PART part, int time, int nth)
 {
 	if (_closes.size() == 0)
 		return false;
@@ -561,7 +534,7 @@ bool CChart::GetDMI(double* pValue, int time, int nth)
 	return true;
 }
 
-bool CChart::GetEMA(double* pValue, CandlePart part, int time, int nth)
+bool CChart::GetEMA(double* pValue, CANDLE_PART part, int time, int nth)
 {
 	if (_closes.size() == 0)
 		return false;
@@ -588,7 +561,7 @@ bool CChart::GetEMA(double* pValue, CandlePart part, int time, int nth)
 	return true;
 }
 
-bool CChart::GetKAMA(double* pValue, CandlePart part, int time, int nth)
+bool CChart::GetKAMA(double* pValue, CANDLE_PART part, int time, int nth)
 {
 	if (_closes.size() == 0)
 		return false;
@@ -615,7 +588,7 @@ bool CChart::GetKAMA(double* pValue, CandlePart part, int time, int nth)
 	return true;
 }
 
-bool CChart::GetLINEARREG(double* pValue, CandlePart part, int time, int nth)
+bool CChart::GetLINEARREG(double* pValue, CANDLE_PART part, int time, int nth)
 {
 	if (_closes.size() == 0)
 		return false;
@@ -643,7 +616,7 @@ bool CChart::GetLINEARREG(double* pValue, CandlePart part, int time, int nth)
 }
 
 
-bool CChart::GetLINEARREGANGLE(double* pValue, CandlePart part, int time, int nth)
+bool CChart::GetLINEARREGANGLE(double* pValue, CANDLE_PART part, int time, int nth)
 {
 	if (_closes.size() == 0)
 		return false;
@@ -671,7 +644,7 @@ bool CChart::GetLINEARREGANGLE(double* pValue, CandlePart part, int time, int nt
 }
 
 
-bool CChart::GetLINEARREGINTERCEPT(double* pValue, CandlePart part, int time, int nth)
+bool CChart::GetLINEARREGINTERCEPT(double* pValue, CANDLE_PART part, int time, int nth)
 {
 	if (_closes.size() == 0)
 		return false;
@@ -699,7 +672,7 @@ bool CChart::GetLINEARREGINTERCEPT(double* pValue, CandlePart part, int time, in
 }
 
 
-bool CChart::GetLINEARREGSLOPE(double* pValue, CandlePart part, int time, int nth)
+bool CChart::GetLINEARREGSLOPE(double* pValue, CANDLE_PART part, int time, int nth)
 {
 	if (_closes.size() == 0)
 		return false;
@@ -726,7 +699,7 @@ bool CChart::GetLINEARREGSLOPE(double* pValue, CandlePart part, int time, int nt
 	return true;
 }
 
-bool CChart::GetMA(double* pValue, CandlePart part, int time, int nth)
+bool CChart::GetMA(double* pValue, CANDLE_PART part, int time, int nth)
 {
 	if (_closes.size() == 0)
 		return false;
@@ -753,7 +726,7 @@ bool CChart::GetMA(double* pValue, CandlePart part, int time, int nth)
 	return true;
 }
 
-bool CChart::GetMACD(MACD_VALUE* pValue, int fast, int slow, int signal, CandlePart part, int nth)
+bool CChart::GetMACD(MACD_VALUE* pValue, int fast, int slow, int signal, CANDLE_PART part, int nth)
 {
 	if (_closes.size() == 0)
 		return false;
@@ -786,7 +759,7 @@ bool CChart::GetMACD(MACD_VALUE* pValue, int fast, int slow, int signal, CandleP
 }
 
 
-bool CChart::GetSimpleMACD(MACD_VALUE* pValue, int fast, int slow, int signal,CandlePart part, int nth)
+bool CChart::GetSimpleMACD(MACD_VALUE* pValue, int fast, int slow, int signal,CANDLE_PART part, int nth)
 {
 	if (_closes.size() == 0)
 		return false;
@@ -818,7 +791,7 @@ bool CChart::GetSimpleMACD(MACD_VALUE* pValue, int fast, int slow, int signal,Ca
 	return true;
 }
 
-bool CChart::GetMAMA(MAMA_VALUE* pValue, CandlePart part, double fast, double slow, int nth)
+bool CChart::GetMAMA(MAMA_VALUE* pValue, CANDLE_PART part, double fast, double slow, int nth)
 {
 	if (_closes.size() == 0)
 		return false;
@@ -888,7 +861,7 @@ bool CChart::GetMFI(double* pValue, int time, int nth)
 	return true;
 }
 
-bool CChart::GetMIDPoint(double* pValue, CandlePart part, int time, int nth)
+bool CChart::GetMIDPoint(double* pValue, CANDLE_PART part, int time, int nth)
 {
 	if (_closes.size() == 0)
 		return false;
@@ -1309,7 +1282,7 @@ bool CChart::GetStochasticRSI(STOCHASTIC_VALUE* pValue, int time, int fastK, int
 	return true;
 }
 
-bool CChart::GetTEMA(double* pValue, CandlePart part, int time, int nth)
+bool CChart::GetTEMA(double* pValue, CANDLE_PART part, int time, int nth)
 {
 	if (_closes.size() == 0)
 		return false;
@@ -1360,7 +1333,7 @@ bool CChart::GetTrueRange(double* pValue, int nth)
 	return true;
 }
 
-bool CChart::GetTRIMA(double* pValue, CandlePart part, int time, int nth)
+bool CChart::GetTRIMA(double* pValue, CANDLE_PART part, int time, int nth)
 {
 	if (_closes.size() == 0)
 		return false;
@@ -1387,7 +1360,7 @@ bool CChart::GetTRIMA(double* pValue, CandlePart part, int time, int nth)
 	return true;
 }
 
-bool CChart::GetTRIX(double* pValue, CandlePart part, int time, int nth)
+bool CChart::GetTRIX(double* pValue, CANDLE_PART part, int time, int nth)
 {
 	if (_closes.size() == 0)
 		return false;
@@ -1414,7 +1387,7 @@ bool CChart::GetTRIX(double* pValue, CandlePart part, int time, int nth)
 	return true;
 }
 
-bool CChart::GetTSF(double* pValue, CandlePart part, int time, int nth)
+bool CChart::GetTSF(double* pValue, CANDLE_PART part, int time, int nth)
 {
 	if (_closes.size() == 0)
 		return false;
@@ -1527,7 +1500,7 @@ bool CChart::GetWILLR(double* pValue, int time, int nth)
 	return true;
 }
 
-bool CChart::GetWMA(double* pValue, CandlePart part, int time, int nth)
+bool CChart::GetWMA(double* pValue, CANDLE_PART part, int time, int nth)
 {
 	if (_closes.size() == 0)
 		return false;
@@ -1564,7 +1537,7 @@ CChartMan::~CChartMan(void)
 {
 }
 
-int CChartMan::AddChart(const string& code, int period, CANDLE_UNIT unit, int strategyId) 
+int CChartMan::AddChart(const CString& code, int period, CANDLE_UNIT unit, int strategyId) 
 { 
 	CChart* pChart = GetChart(code, period, unit);
 	if (pChart != nullptr)
@@ -1592,7 +1565,7 @@ CChart* CChartMan::GetChart(int chartId)
 	return nullptr;
 }
 
-CChart* CChartMan::GetChart(const string& code, int period, CANDLE_UNIT unit)
+CChart* CChartMan::GetChart(const CString& code, int period, CANDLE_UNIT unit)
 {
 	for (auto i=chartList.begin(); i!=chartList.end(); ++i) 
 	{ 
@@ -1620,7 +1593,7 @@ void CChartMan::DelChart(int chartId, int strategyId)
 }
 
 
-int CChartMan::AddCustomChart(const string& chartName, int period, CANDLE_UNIT unit, int strategyId) 
+int CChartMan::AddCustomChart(const CString& chartName, int period, CANDLE_UNIT unit, int strategyId) 
 { 
 	CChart* pChart = GetCustomChart(chartName);
 	if (pChart != nullptr)
@@ -1648,7 +1621,7 @@ CChart* CChartMan::GetCustomChart(int chartId)
 	return nullptr;
 }
 
-CChart* CChartMan::GetCustomChart(const string& chartName)
+CChart* CChartMan::GetCustomChart(const CString& chartName)
 {
 	for (auto i=customChartList.begin(); i!=customChartList.end(); ++i)
 	{ 
@@ -1659,7 +1632,7 @@ CChart* CChartMan::GetCustomChart(const string& chartName)
 	return nullptr;
 }
 
-void CChartMan::DelCustomChart(const string& chartName, int strategyId) 
+void CChartMan::DelCustomChart(const CString& chartName, int strategyId) 
 {
 	for (auto i=customChartList.begin(); i!=customChartList.end(); ++i) 
 	{ 
@@ -1675,18 +1648,13 @@ void CChartMan::DelCustomChart(const string& chartName, int strategyId)
 
 }
 
-void CChartMan::OnTick(CUnit* pUnit) 
+void CChartMan::OnTick(const CString code, const sltime& time, double price, long volume) 
 { 
 	for (auto i=chartList.begin(); i!=chartList.end(); ++i) 
-		(*i)->OnTick(pUnit);
+	{
+		if ((*i)->GetCode() == code)
+			(*i)->OnTick(time, price, volume);
+
+	}
 } 
 
-
-void CChartMan::OnCustomTick(int chartId, const sltime& time, const price& openPrice, const price& highPrice, const price& lowPrice, const price& closePrice, const price& volPrice)
-{
-	for (auto i=customChartList.begin(); i!=customChartList.end(); ++i) 
-	{ 
-		if ((*i)->GetChartId() == chartId )
-			(*i)->OnTick(time, openPrice, highPrice, lowPrice, closePrice, volPrice);
-	} 
-}

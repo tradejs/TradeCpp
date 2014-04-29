@@ -49,19 +49,16 @@
 
 
 
-
 #include <afxdb.h>        // ODBC
-#include <string>
 #include <vector>
 #include <memory>
 #include <list>
+#include <map>
 #include "IXingAPI.h"
 
 using namespace std;
 extern IXingAPI		g_iXingAPI;
 
-typedef COleDateTime stime;
-typedef COleDateTimeSpan stimespan;
 
 #ifdef _UNICODE
 #if defined _M_IX86

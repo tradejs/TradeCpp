@@ -1,7 +1,17 @@
 #pragma once
+#include "sltime.h"
+#include <set>
+#include <deque>
 
+enum CANDLE_UNIT
+{
+	series_min = 0,
+	series_day = -1,
+	series_week = -2,
+	series_month = -3
+};
 
-enum CandlePart
+enum CANDLE_PART
 {
 	close = 0,
 	open,
@@ -12,10 +22,10 @@ enum CandlePart
 struct Candle
 {
 	sltime candle_time;
-	price candle_open;
-	price candle_high;
-	price candle_low;
-	price candle_close;
+	double candle_open;
+	double candle_high;
+	double candle_low;
+	double candle_close;
 	double candle_vol;
 };
 
@@ -54,28 +64,28 @@ struct STOCHASTIC_VALUE
 class CChart 
 { 
 public: 
-	CChart(const string& code, int period, CANDLE_UNIT unit); 
+	CChart(const CString& code, int period, CANDLE_UNIT unit); 
 	~CChart(); 
 
 private: 
 	set<int> refSet;
 
 	int _chartId;
-	string _code; 
+	CString _code; 
 	int _period; 
 	CANDLE_UNIT _unit;
 
 	deque<sltime> _times; 
-	deque<price> _opens; 
-	deque<price> _highs; 
-	deque<price> _lows; 
-	deque<price> _closes; 
-	deque<price> _vols; 
+	deque<double> _opens; 
+	deque<double> _highs; 
+	deque<double> _lows; 
+	deque<double> _closes; 
+	deque<double> _vols; 
 
 	//candle
 	sltime curUntilTime;
 	
-	void AppendCandle(const sltime& time, price open, price high, price low, price close, price vol); 
+	void AppendCandle(const sltime& time, double close, long vol); 
 	sltime GetCandleUntileTime(const sltime& tickTime);
 	sltime GetCandleBeginTime(const sltime& tickTime);
 
@@ -91,7 +101,7 @@ public:
 		return refSet.size();
 	}
 
-	string& GetCode() 
+	CString& GetCode() 
 	{ 
 		return _code; 
 	} 
@@ -118,10 +128,8 @@ public:
 
 
 	bool isNewCandle(const sltime& tickTime);
-	void OnTick(CUnit* pUnit);
-	void OnTick(const sltime& time, const price& openPrice, const price& highPrice, const price& lowPrice, const price& closePrice, const price& volPrice);
+	void OnTick(const sltime& time, double price, long volume);
 
-	//bool GetIndicator(ChartIndicator indicator, double* pValue, vector<double> args, int nth=0);
 	shared_ptr<Candle> GetCandle(int nth);
 
 	bool GetAD(double* pValue, int nth=0);
@@ -137,21 +145,21 @@ public:
 	bool GetBOP(double* pValue, int nth=0);
 	bool GetCCI(double* pValue, int time=14, int nth=0);
 	bool GetCMO(double* pValue, int time=14, int nth=0);
-	bool GetDEMA(double* pValue, CandlePart part=close, int time=20, int nth=0);
+	bool GetDEMA(double* pValue, CANDLE_PART part=close, int time=20, int nth=0);
 	bool GetDMI(double* pValue, int time=14, int nth=0);
-	bool GetEMA(double* pValue, CandlePart part=close, int time=20, int nth=0);
-	bool GetKAMA(double* pValue, CandlePart part=close, int time=20, int nth=0);
-	bool GetLINEARREG(double* pValue, CandlePart part=close, int time=14, int nth=0);
-	bool GetLINEARREGANGLE(double* pValue, CandlePart part=close, int time=14, int nth=0);
-	bool GetLINEARREGINTERCEPT(double* pValue, CandlePart part=close, int time=14, int nth=0);
-	bool GetLINEARREGSLOPE(double* pValue, CandlePart part=close, int time=14, int nth=0);
-	bool GetMA(double* pValue, CandlePart part=close, int time=20, int nth=0);
-	bool GetMACD(MACD_VALUE* pValue, int fast = 12, int slow = 26, int signal = 9, CandlePart part=close, int nth=0);
-	bool GetSimpleMACD(MACD_VALUE* pValue, int fast = 12, int slow = 26, int signal = 9, CandlePart part=close, int nth=0);
-	bool GetMAMA(MAMA_VALUE* pValue, CandlePart part=close, double fast = 0.5, double slow = 0.05, int nth=0);
+	bool GetEMA(double* pValue, CANDLE_PART part=close, int time=20, int nth=0);
+	bool GetKAMA(double* pValue, CANDLE_PART part=close, int time=20, int nth=0);
+	bool GetLINEARREG(double* pValue, CANDLE_PART part=close, int time=14, int nth=0);
+	bool GetLINEARREGANGLE(double* pValue, CANDLE_PART part=close, int time=14, int nth=0);
+	bool GetLINEARREGINTERCEPT(double* pValue, CANDLE_PART part=close, int time=14, int nth=0);
+	bool GetLINEARREGSLOPE(double* pValue, CANDLE_PART part=close, int time=14, int nth=0);
+	bool GetMA(double* pValue, CANDLE_PART part=close, int time=20, int nth=0);
+	bool GetMACD(MACD_VALUE* pValue, int fast = 12, int slow = 26, int signal = 9, CANDLE_PART part=close, int nth=0);
+	bool GetSimpleMACD(MACD_VALUE* pValue, int fast = 12, int slow = 26, int signal = 9, CANDLE_PART part=close, int nth=0);
+	bool GetMAMA(MAMA_VALUE* pValue, CANDLE_PART part=close, double fast = 0.5, double slow = 0.05, int nth=0);
 	bool GetMedPrice(double* pValue, int nth=0);
 	bool GetMFI(double* pValue, int time=14, int nth=0);
-	bool GetMIDPoint(double* pValue, CandlePart part=close, int time=14, int nth=0);
+	bool GetMIDPoint(double* pValue, CANDLE_PART part=close, int time=14, int nth=0);
 	bool GetMIDPrice(double* pValue, int time=14, int nth=0);
 	bool GetDiMinus(double* pValue, int time=14, int nth=0);
 	bool GetDmMinus(double* pValue, int time=14, int nth=0);
@@ -170,17 +178,17 @@ public:
 	bool GetStochastic(STOCHASTIC_VALUE* pValue, int fastK = 5, int slowK = 3, int slowD=3, int nth=0);
 	bool GetStochasticFast(STOCHASTIC_VALUE* pValue, int fastK = 5, int fastD=3, int nth=0);
 	bool GetStochasticRSI(STOCHASTIC_VALUE* pValue, int time=14, int fastK = 5, int fastD=3, int nth=0);
-	bool GetTEMA(double* pValue, CandlePart part=close, int time=20, int nth=0);
+	bool GetTEMA(double* pValue, CANDLE_PART part=close, int time=20, int nth=0);
 	bool GetTrueRange(double* pValue, int nth=0);
-	bool GetTRIMA(double* pValue, CandlePart part=close, int time=20, int nth=0);
-	bool GetTRIX(double* pValue, CandlePart part=close, int time=20, int nth=0);
-	bool GetTSF(double* pValue, CandlePart part=close, int time=20, int nth=0);
+	bool GetTRIMA(double* pValue, CANDLE_PART part=close, int time=20, int nth=0);
+	bool GetTRIX(double* pValue, CANDLE_PART part=close, int time=20, int nth=0);
+	bool GetTSF(double* pValue, CANDLE_PART part=close, int time=20, int nth=0);
 	bool GetTypicalPrice(double* pValue, int nth=0);
 	bool GetUltimateOsc(double* pValue, int time1=7, int time2=14, int time3=28, int nth=0);
 	bool GetVAR(double* pValue, int time=5, double dev=1, int nth=0);
 	bool GetWC(double* pValue, int nth=0);
 	bool GetWILLR(double* pValue, int time = 14, int nth=0);
-	bool GetWMA(double* pValue, CandlePart part=close, int time=20, int nth=0);
+	bool GetWMA(double* pValue, CANDLE_PART part=close, int time=20, int nth=0);
 }; 
 
 class CChartMan
@@ -194,17 +202,15 @@ private:
 	list<unique_ptr<CChart> > customChartList; 
 
 public: 
-	int AddChart(const string& code, int period, CANDLE_UNIT unit, int strategyId); 
+	int AddChart(const CString& code, int period, CANDLE_UNIT unit, int strategyId); 
 	void DelChart(int chartId, int strategyId);
 	CChart* GetChart(int chartId);
-	CChart* GetChart(const string& code, int period, CANDLE_UNIT unit);
-	int AddCustomChart(const string& chartName, int period, CANDLE_UNIT unit, int strategyId);
-	void DelCustomChart(const string& chartName, int strategyId);
-	CChart* GetCustomChart(const string& chartName);
+	CChart* GetChart(const CString& code, int period, CANDLE_UNIT unit);
+	int AddCustomChart(const CString& chartName, int period, CANDLE_UNIT unit, int strategyId);
+	void DelCustomChart(const CString& chartName, int strategyId);
+	CChart* GetCustomChart(const CString& chartName);
 	CChart* GetCustomChart(int chartId);
 
-	void OnTick(CUnit* pUnit); 
-	void OnCustomTick(int chartId, const sltime& time, const price& openPrice, const price& highPrice, const price& lowPrice, const price& closePrice, const price& volPrice);
-
+	void OnTick(const CString code, const sltime& time, double price, long volume); 
 };
 

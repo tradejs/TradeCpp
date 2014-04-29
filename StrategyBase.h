@@ -33,6 +33,14 @@ protected:
 	BOOL AdviseRealData(LPCTSTR pszTrNo, LPCTSTR pszData, int nDataUnitLen);
 	BOOL UnadviseRealData(LPCTSTR pszTrNo, LPCTSTR pszData, int nDataUnitLen);
 
+	void SetGlobal(string key, const CString data);
+	void SetGlobal(string key, long data);
+	void SetGlobal(string key, double data);
+
+	CString GetGlobalString(const string& key);
+	long GetGlobalLong(const string& key);
+	double GetGlobalDouble(const string& key);
+
 public:
     virtual LPCTSTR GetStrategyName()=0;
 	virtual void LoadAllProperty(void)=0;

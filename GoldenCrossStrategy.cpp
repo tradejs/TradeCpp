@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GoldenCrossStrategy.h"
 
+
 //사용할 계좌번호와 비밀번호를 저장합니다.
 CString AccountCode = "";
 CString AccountPass = "";
@@ -11,6 +12,8 @@ CGoldenCrossStrategy::CGoldenCrossStrategy()
 {
 	NearPrice = 100;
 	TradeMoney = 10;
+
+
 }
 
 CGoldenCrossStrategy::~CGoldenCrossStrategy(void)

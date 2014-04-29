@@ -105,6 +105,12 @@
     <ClInclude Include="talib\ta_utility.h">
       <Filter>Util\TALib</Filter>
     </ClInclude>
+    <ClInclude Include="sltime.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainFrm.cpp">
@@ -634,6 +640,12 @@
     </ClCompile>
     <ClCompile Include="talib\ta_WMA.c">
       <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="sltime.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Global.cpp">
+      <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

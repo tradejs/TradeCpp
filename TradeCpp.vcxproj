@@ -49,10 +49,10 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions);_USE_32BIT_TIME_T;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -78,7 +78,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions);_USE_32BIT_TIME_T;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChartMan.h" />
+    <ClInclude Include="Global.h" />
     <ClInclude Include="GoldenCrossStrategy.h" />
     <ClInclude Include="LoginDialog.h" />
     <ClInclude Include="MainFrm.h" />
@@ -111,6 +112,7 @@
     <ClInclude Include="Packet.h" />
     <ClInclude Include="PropertiesWnd.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="sltime.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StrategyBase.h" />
     <ClInclude Include="talib\ta_abstract.h" />
@@ -130,12 +132,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChartMan.cpp" />
+    <ClCompile Include="Global.cpp" />
     <ClCompile Include="GoldenCrossStrategy.cpp" />
     <ClCompile Include="LoginDialog.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
     <ClCompile Include="Packet.cpp" />
     <ClCompile Include="PropertiesWnd.cpp" />
+    <ClCompile Include="sltime.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

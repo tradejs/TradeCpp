@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "StrategyBase.h"
 #include "MainFrm.h"
+#include "Global.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -26,7 +27,7 @@ CStrategyBase::~CStrategyBase(void)
 void CStrategyBase::Create()
 {
 	CString wnd_class_name = ::AfxRegisterWndClass(NULL);
-	BOOL created = this->CreateEx(0,wnd_class_name, 
+	this->CreateEx(0,wnd_class_name, 
 		"CStrategyBaseClass",0 ,0 ,0 ,0 ,0 ,HWND_MESSAGE,0);
 
 	LoadAllProperty();
@@ -107,60 +108,34 @@ BOOL CStrategyBase::UnadviseRealData(LPCTSTR pszTrNo, LPCTSTR pszData, int nData
 	return g_iXingAPI.UnadviseRealData(m_hWnd, pszTrNo, pszData, nDataUnitLen);
 }
 
-//void CStrategyBase::AddStop(CStopTradeBase* s)
-//{
-//	_stopTradeList.push_back(s);
-//}
-
-/*BOOL CStrategyBase::EnterBasket(CBasketPtr basket)
+void CStrategyBase::SetGlobal(string key, const CString data)
 {
-	if ( _selectedAccount != NULL )
-		basket->pSelectedAccount = _selectedAccount;
-	else
-		basket->pSelectedAccount = CJumunManager::GetInstance()->GetDefaultAccount(itemtype_option);
-
-	ASSERT( basket->size() > 0);
-	if ( basket->size() > 0)
-	{
-		CJumunManager::GetInstance()->EnterBasket(basket);
-	}
-
-	basketList.push_back(basket);
-    return TRUE;
+	gGlobal.SetGlobal(key, data);
 }
 
-BOOL CStrategyBase::ExitBasket(CBasketPtr basket, LPCTSTR Memo)
+void CStrategyBase::SetGlobal(string key, long data)
 {
-    CJumunManager::GetInstance()->ExitBasket(basket, Memo);
-	basketList.remove(basket);
-    return TRUE;
+	gGlobal.SetGlobal(key, data);
 }
 
-BOOL CStrategyBase::Add2Basket(CBasketPtr basket, COption* month, int nCount)
+void CStrategyBase::SetGlobal(string key, double data)
 {
-    CJumunManager::GetInstance()->AddtoBasket(basket, month, nCount);
-    return TRUE;
+	gGlobal.SetGlobal(key, data);
 }
 
-BOOL CStrategyBase::Del2Basket(CBasketPtr basket, COption* month, int nCount)
+CString CStrategyBase::GetGlobalString(const string& key)
 {
-    CJumunManager::GetInstance()->DelfromBasket(basket, month, nCount);
-    return TRUE;
+	return gGlobal.GetGlobalString(key);
 }
 
-//double CStrategyBase::GetCurrentProfit(CBasketPtr basket, BOOL bCalcBrokerage)
-//{
- //   return CJumunManager::GetInstance()->GetCurrentProfit(basket, bCalcBrokerage);
-//}
-
-BOOL CStrategyBase::IsExistSameBasket(CBasket* pBasket)
+long CStrategyBase::GetGlobalLong(const string& key)
 {
-	for(auto i=basketList.begin(); i!=basketList.end(); i++)
-    {
-		if (pBasket->IsExistEntry(pBasket))
-            return TRUE;
-    }
+	return gGlobal.GetGlobalLong(key);
+}
 
-    return FALSE;
-}*/
+double CStrategyBase::GetGlobalDouble(const string& key)
+{
+	return gGlobal.GetGlobalDouble(key);
+}
+
 
