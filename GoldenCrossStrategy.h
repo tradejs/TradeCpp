@@ -12,6 +12,8 @@ public:
 	void OnMessage(int reqId, const CString& msg);
 	void OnTimeout();
 	void OnLoad();
+	void OnStart();
+	void OnStop();
 
 	LPCTSTR GetStrategyName()
 	{

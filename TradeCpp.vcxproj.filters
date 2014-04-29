@@ -22,6 +22,12 @@
     <Filter Include="Xing">
       <UniqueIdentifier>{c474795d-7cd8-4f57-b223-9464893cffaf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{7d8aa6dd-cc57-4154-99ed-8654266991c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util\TALib">
+      <UniqueIdentifier>{fde3bbbc-a2c0-4b0a-954a-e3d6934de73b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -66,6 +72,39 @@
     <ClInclude Include="LoginDialog.h">
       <Filter>Xing</Filter>
     </ClInclude>
+    <ClInclude Include="ChartMan.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="talib\ta_abstract.h">
+      <Filter>Util\TALib</Filter>
+    </ClInclude>
+    <ClInclude Include="talib\ta_common.h">
+      <Filter>Util\TALib</Filter>
+    </ClInclude>
+    <ClInclude Include="talib\ta_defs.h">
+      <Filter>Util\TALib</Filter>
+    </ClInclude>
+    <ClInclude Include="talib\ta_func.h">
+      <Filter>Util\TALib</Filter>
+    </ClInclude>
+    <ClInclude Include="talib\ta_global.h">
+      <Filter>Util\TALib</Filter>
+    </ClInclude>
+    <ClInclude Include="talib\ta_libc.h">
+      <Filter>Util\TALib</Filter>
+    </ClInclude>
+    <ClInclude Include="talib\ta_magic_nb.h">
+      <Filter>Util\TALib</Filter>
+    </ClInclude>
+    <ClInclude Include="talib\ta_memory.h">
+      <Filter>Util\TALib</Filter>
+    </ClInclude>
+    <ClInclude Include="talib\ta_pragma.h">
+      <Filter>Util\TALib</Filter>
+    </ClInclude>
+    <ClInclude Include="talib\ta_utility.h">
+      <Filter>Util\TALib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainFrm.cpp">
@@ -100,6 +139,501 @@
     </ClCompile>
     <ClCompile Include="LoginDialog.cpp">
       <Filter>Xing</Filter>
+    </ClCompile>
+    <ClCompile Include="ChartMan.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_ACOS.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_AD.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_ADD.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_ADOSC.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_ADX.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_ADXR.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_APO.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_AROON.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_AROONOSC.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_ASIN.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_ATAN.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_ATR.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_AVGPRICE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_BBANDS.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_BETA.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_BOP.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CCI.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDL2CROWS.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDL3BLACKCROWS.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDL3INSIDE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDL3LINESTRIKE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDL3OUTSIDE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDL3STARSINSOUTH.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDL3WHITESOLDIERS.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLABANDONEDBABY.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLADVANCEBLOCK.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLBELTHOLD.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLBREAKAWAY.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLCLOSINGMARUBOZU.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLCONCEALBABYSWALL.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLCOUNTERATTACK.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLDARKCLOUDCOVER.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLDOJI.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLDOJISTAR.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLDRAGONFLYDOJI.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLENGULFING.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLEVENINGDOJISTAR.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLEVENINGSTAR.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLGAPSIDESIDEWHITE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLGRAVESTONEDOJI.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLHAMMER.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLHANGINGMAN.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLHARAMI.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLHARAMICROSS.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLHIGHWAVE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLHIKKAKE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLHIKKAKEMOD.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLHOMINGPIGEON.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLIDENTICAL3CROWS.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLINNECK.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLINVERTEDHAMMER.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLKICKING.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLKICKINGBYLENGTH.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLLADDERBOTTOM.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLLONGLEGGEDDOJI.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLLONGLINE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLMARUBOZU.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLMATCHINGLOW.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLMATHOLD.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLMORNINGDOJISTAR.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLMORNINGSTAR.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLONNECK.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLPIERCING.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLRICKSHAWMAN.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLRISEFALL3METHODS.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLSEPARATINGLINES.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLSHOOTINGSTAR.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLSHORTLINE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLSPINNINGTOP.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLSTALLEDPATTERN.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLSTICKSANDWICH.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLTAKURI.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLTASUKIGAP.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLTHRUSTING.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLTRISTAR.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLUNIQUE3RIVER.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLUPSIDEGAP2CROWS.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CDLXSIDEGAP3METHODS.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CEIL.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CMO.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_CORREL.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_COS.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_COSH.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_DEMA.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_DIV.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_DX.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_EMA.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_EXP.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_FLOOR.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_global.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_HT_DCPERIOD.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_HT_DCPHASE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_HT_PHASOR.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_HT_SINE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_HT_TRENDLINE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_HT_TRENDMODE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_KAMA.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_LINEARREG.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_LINEARREG_ANGLE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_LINEARREG_INTERCEPT.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_LINEARREG_SLOPE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_LN.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_LOG10.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MA.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MACD.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MACDEXT.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MACDFIX.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MAMA.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MAVP.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MAX.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MAXINDEX.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MEDPRICE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MFI.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MIDPOINT.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MIDPRICE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MIN.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MININDEX.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MINMAX.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MINMAXINDEX.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MINUS_DI.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MINUS_DM.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MOM.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_MULT.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_NATR.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_NVI.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_OBV.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_PLUS_DI.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_PLUS_DM.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_PPO.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_PVI.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_retcode.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_ROC.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_ROCP.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_ROCR.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_ROCR100.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_RSI.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_SAR.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_SAREXT.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_SIN.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_SINH.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_SMA.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_SQRT.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_STDDEV.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_STOCH.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_STOCHF.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_STOCHRSI.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_SUB.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_SUM.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_T3.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_TAN.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_TANH.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_TEMA.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_TRANGE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_TRIMA.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_TRIX.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_TSF.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_TYPPRICE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_ULTOSC.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_utility.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_VAR.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_version.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_WCLPRICE.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_WILLR.c">
+      <Filter>Util\TALib</Filter>
+    </ClCompile>
+    <ClCompile Include="talib\ta_WMA.c">
+      <Filter>Util\TALib</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

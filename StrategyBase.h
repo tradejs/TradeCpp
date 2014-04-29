@@ -1,5 +1,6 @@
 #pragma once
 #include "IXingAPI.h"
+#include "Packet.h"
 
 struct STRATEGY_VARIABLE 
 {
@@ -21,7 +22,7 @@ protected:
 	vector<unique_ptr<STRATEGY_VARIABLE> > 	_varList;	
 
 	virtual void OnStart() = 0;
-	virtual void OnEnd() = 0;
+	virtual void OnStop() = 0;
 	virtual void OnReceiveData(LPRECV_PACKET packet) = 0;
 	virtual void OnRealData(LPRECV_REAL_PACKET realpacket) = 0;
 	virtual void OnMessage(int reqId, const CString& msg) = 0;
@@ -68,5 +69,3 @@ private:
 	DECLARE_MESSAGE_MAP()
 
 };
-
-typedef std::shared_ptr<CStrategyBase>	CStrategyPtr;
