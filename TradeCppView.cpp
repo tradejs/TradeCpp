@@ -24,6 +24,8 @@
 #include "TradeCppView.h"
 #include "StrategyBase.h"
 
+#include "DataWriteStrategy.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -182,7 +184,7 @@ int CTradeCppView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 void CTradeCppView::InitStrategy()
 {
 	InsertStrategy(new CGoldenCrossStrategy);
-
+	InsertStrategy(new CDataWriteStrategy);
 }
 
 

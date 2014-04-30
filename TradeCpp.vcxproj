@@ -103,8 +103,10 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AccountStrategy.h" />
     <ClInclude Include="ChartMan.h" />
     <ClInclude Include="CppSQLite3.h" />
+    <ClInclude Include="DataWriteStrategy.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="GoldenCrossStrategy.h" />
     <ClInclude Include="LoginDialog.h" />
@@ -135,8 +137,10 @@
     <ClInclude Include="TradeCppView.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AccountStrategy.cpp" />
     <ClCompile Include="ChartMan.cpp" />
     <ClCompile Include="CppSQLite3.cpp" />
+    <ClCompile Include="DataWriteStrategy.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="GoldenCrossStrategy.cpp" />
     <ClCompile Include="LoginDialog.cpp" />
