@@ -111,6 +111,18 @@
     <ClInclude Include="Global.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="Storage.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="CppSQLite3.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="sqlite3.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="sqlite3ext.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MainFrm.cpp">
@@ -645,6 +657,15 @@
       <Filter>Util</Filter>
     </ClCompile>
     <ClCompile Include="Global.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Storage.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="CppSQLite3.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="sqlite3.c">
       <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>

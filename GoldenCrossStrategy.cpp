@@ -10,10 +10,9 @@ CString AccountPass = "";
 //일반적으로 클래스의 변수들을 초기화 합니다.
 CGoldenCrossStrategy::CGoldenCrossStrategy()
 {
-	NearPrice = 100;
-	TradeMoney = 10;
-
-
+	longPeriod = 20;
+	shortPeriod = 5;
+	entryAmount = 1000000;
 }
 
 CGoldenCrossStrategy::~CGoldenCrossStrategy(void)
@@ -25,7 +24,12 @@ CGoldenCrossStrategy::~CGoldenCrossStrategy(void)
 //클래스 생성자에서는 변수초기화만 처리하고, 나머지 작업은 여기서 처리하는것을 권장합니다. 
 void CGoldenCrossStrategy::OnLoad()
 {
+	//삼성전자 실시간 시세를 요청합니다.
+	StockTickRealRequst sse30("005930");
+	Receiv
 
+	//삼성전자 30분봉을 생성합니다.
+	pSSE30Chart = new CChart("005930", 30, CANDLE_UNIT::series_min);
 }
 
 //전략이 시작되면 처리할 작업을 정의합니다.
@@ -44,10 +48,10 @@ void CGoldenCrossStrategy::OnStop()
 }
 
 //요청한 조회 데이터가 수신되면 호출 됩니다.
-//프로토콜을 씨뿔뿔의 데이터 타입으로 변환하는 복잡한 과정은 packet.h / packet.cpp 를 참고하세요.
+//프로토콜을 C++ 데이터 타입으로 변환하는 과정은 packet.h / packet.cpp 를 참고하세요.
 void CGoldenCrossStrategy::OnReceiveData(LPRECV_PACKET packet)
 {
-	if (packet->szTrCode == NAME_t1102)
+	if (strcmp(packet->szTrCode,NAME_t1102) == 0)
 	{
 		StockSiseResponse stockSise = Packet::MakeStockSiseResponse(packet);
 
@@ -57,17 +61,32 @@ void CGoldenCrossStrategy::OnReceiveData(LPRECV_PACKET packet)
 	//Request(
 }
 
+//요청한 실시간 데이터가 수신되면 호출 됩니다.
+//프로토콜을 C++ 데이터 타입으로 변환하는 과정은 packet.h / packet.cpp 를 참고하세요.
 void CGoldenCrossStrategy::OnRealData(LPRECV_REAL_PACKET realpacket)
 {
 
 }
 
+//메시지가 수신되면 호출 됩니다.
+//주로 오류코드인 경유가 많습니다.
+//reqId를 확인하여 다른 동작을 수행할 수 있습니다.
 void CGoldenCrossStrategy::OnMessage(int reqId, const CString& msg)
 {
 
 }
 
+//조회 데이터가 타임아웃일 경우 발생합니다.
 void CGoldenCrossStrategy::OnTimeout()
+{
+
+}
+
+
+//타이머가 발생할 경우 호출 됩니다.
+//여러 타이머를 동시에 돌릴경우 timerId를 통해 구분할 수 있습니다.
+//타이머를 중지시키려면 KillTimer(timerId)를 실행하세요.
+void CGoldenCrossStrategy::OnTimer(int timerId)
 {
 
 }

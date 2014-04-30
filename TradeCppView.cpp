@@ -177,22 +177,12 @@ int CTradeCppView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
+
+// 작성한 전략들은 이곳에 추가하여 주세요.
 void CTradeCppView::InitStrategy()
 {
-	CGoldenCrossStrategy* goldenCross = new CGoldenCrossStrategy;
-	goldenCross->Create();
-	strategies.push_back(goldenCross);
-	
-	InsertStrategy(goldenCross);
+	InsertStrategy(new CGoldenCrossStrategy);
 
-
-	CGoldenCrossStrategy* goldenCross2 = new CGoldenCrossStrategy;
-	goldenCross2->Create();
-	strategies.push_back(goldenCross2);
-	
-	InsertStrategy(goldenCross2);
-
-	//m_wndProperties.SetStrategy(goldenCross);
 }
 
 
@@ -214,6 +204,9 @@ void CTradeCppView::InsertStrategy(CStrategyBase* pStrategy)
 	m_list.InsertItem(itemCount, pStrategy->GetStrategyName());
 	m_list.SetItem(itemCount, 1, LVIF_TEXT, "", 0, 0, 0, NULL );
 	m_list.SetItemData(itemCount, (DWORD_PTR)pStrategy);
+
+	pStrategy->Create();
+	strategies.push_back(pStrategy);
 }
 
 void CTradeCppView::OnDestroy()

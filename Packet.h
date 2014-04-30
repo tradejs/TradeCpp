@@ -1,31 +1,57 @@
 #pragma once
 #include "IXingAPI.h"
 #include "packet\t1102.h"
+#include "packet\s3_.h"
+
+
+CString GetStringData( char* psData, int nSize);
+long GetLongData( char* psData, int nSize);
+double GetDoubleData( char* psData, int nSize, int nDotPos );
+double GetDotDoubleData( char* psData, int nSize);
+
 
 class CRequest
 {
 public:
 	virtual int GetPacketSize() = 0;
-	virtual char* GetPacketStream() = 0;
+	virtual LPCTSTR GetPacketStream() = 0;
+	virtual LPCTSTR GetTrCode() = 0;
 };
 
 
-class StockSiseRequst : public CRequest
+class StockSiseHogaRequst : public CRequest
 {
 private:
 	t1102InBlock in;
 
 public:
-	StockSiseRequst(const CString& code)
+	StockSiseHogaRequst(const CString& code)
 	{
 		memset(&in, ' ', sizeof(t1102InBlock));
 		strcpy_s(in.shcode, 6, (LPCTSTR)code);
 	}
 
 	int GetPacketSize() { return sizeof(t1102InBlock);	}
-	char* GetPacketStream()	{ return (char*)&in;	}
+	LPCTSTR GetPacketStream()	{ return (LPCTSTR)&in;	}
+	LPCTSTR GetTrCode() { return NAME_t1102;			}
 };
 
+class StockTickRealRequst : public CRequest
+{
+private:
+	S3__InBlock in;
+
+public:
+	StockTickRealRequst(const CString& code)
+	{
+		memset(&in, ' ', sizeof(S3__InBlock));
+		strcpy_s(in.shcode, 6, (LPCTSTR)code);
+	}
+
+	int GetPacketSize() { return sizeof(S3__InBlock);	}
+	LPCTSTR GetPacketStream()	{ return (LPCTSTR)&in;	}
+	LPCTSTR GetTrCode() { return NAME_S3_;				}
+};
 //T1102
 class StockSiseResponse
 {

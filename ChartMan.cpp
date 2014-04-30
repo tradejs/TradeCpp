@@ -1593,61 +1593,6 @@ void CChartMan::DelChart(int chartId, int strategyId)
 }
 
 
-int CChartMan::AddCustomChart(const CString& chartName, int period, CANDLE_UNIT unit, int strategyId) 
-{ 
-	CChart* pChart = GetCustomChart(chartName);
-	if (pChart != nullptr)
-	{
-		pChart->AddRef(strategyId);
-		return pChart->GetChartId();
-	}
-
-	unique_ptr<CChart> chart(new CChart(chartName, period, unit)); 
-	int chartId = chart->GetChartId();
-	chart->AddRef(strategyId);
-
-	customChartList.push_back(move(chart)); 
-	return chartId; 
-} 
-
-CChart* CChartMan::GetCustomChart(int chartId)
-{
-	for (auto i=customChartList.begin(); i!=customChartList.end(); ++i)
-	{ 
-		if ((*i)->GetChartId() == chartId) 
-			return (*i).get(); 
-	} 
-
-	return nullptr;
-}
-
-CChart* CChartMan::GetCustomChart(const CString& chartName)
-{
-	for (auto i=customChartList.begin(); i!=customChartList.end(); ++i)
-	{ 
-		if ((*i)->GetCode() == chartName) 
-			return (*i).get(); 
-	} 
-
-	return nullptr;
-}
-
-void CChartMan::DelCustomChart(const CString& chartName, int strategyId) 
-{
-	for (auto i=customChartList.begin(); i!=customChartList.end(); ++i) 
-	{ 
-		if ((*i)->GetCode() == chartName) 
-		{
-			int refCount = (*i)->DelRef(strategyId);
-			if (refCount == 0)
-				i = customChartList.erase(i);
-
-			break;
-		}
-	} 
-
-}
-
 void CChartMan::OnTick(const CString code, const sltime& time, double price, long volume) 
 { 
 	for (auto i=chartList.begin(); i!=chartList.end(); ++i) 

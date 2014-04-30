@@ -2,6 +2,7 @@
 #include "StrategyBase.h"
 #include "MainFrm.h"
 #include "Global.h"
+#include "Storage.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -11,6 +12,7 @@ BEGIN_MESSAGE_MAP(CStrategyBase, CWnd)
 	ON_MESSAGE(WM_USER + XM_RECEIVE_DATA, &CStrategyBase::OnMsgReceiveData)
 	ON_MESSAGE(WM_USER + XM_RECEIVE_REAL_DATA, &CStrategyBase::OnMsgRealData)
 	ON_MESSAGE(WM_USER + XM_TIMEOUT_DATA, &CStrategyBase::OnMsgTimeout)
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 CStrategyBase::CStrategyBase()
@@ -31,19 +33,20 @@ void CStrategyBase::Create()
 		"CStrategyBaseClass",0 ,0 ,0 ,0 ,0 ,HWND_MESSAGE,0);
 
 	LoadAllProperty();
+	OnLoad();
 }
 
-void CStrategyBase::TradeLog(CString log)
+void CStrategyBase::TradeLog(const CString& log)
 {
 	((CMainFrame*)AfxGetMainWnd())->TradeLog(log);
 }
 
-void CStrategyBase::NormalLog(CString log)
+void CStrategyBase::NormalLog(const CString& log)
 {
 	((CMainFrame*)AfxGetMainWnd())->NormalLog(log);
 }
 
-void CStrategyBase::SignalLog(CString log)
+void CStrategyBase::SignalLog(const CString& log)
 {
 	((CMainFrame*)AfxGetMainWnd())->SignalLog(log);
 }
@@ -77,19 +80,22 @@ LRESULT CStrategyBase::OnMsgReceiveData(WPARAM wParam, LPARAM lParam)
 		LPRECV_PACKET pRpData = (LPRECV_PACKET)lParam;
 		OnReceiveData(pRpData);
 	}
-
 	
 	return 0;
 }
 
 LRESULT CStrategyBase::OnMsgRealData(WPARAM wParam, LPARAM lParam)
 {
+	LPRECV_REAL_PACKET pRealPacket = (LPRECV_REAL_PACKET)lParam;
+	OnRealData(pRealPacket);
 	return 0;
 }
 
 
 LRESULT CStrategyBase::OnMsgTimeout(WPARAM wParam, LPARAM lParam)
 {
+	g_iXingAPI.ReleaseRequestData( (int)lParam );
+	OnTimeout();
 	return 0;
 }
 
@@ -139,3 +145,17 @@ double CStrategyBase::GetGlobalDouble(const string& key)
 }
 
 
+void CStrategyBase::WriteToStorage(const CString& key, const CString& data)
+{
+	gStorage.SetData(key, data);
+}
+
+CString CStrategyBase::ReadFromStorage(const CString& key)
+{
+	return gStorage.GetData(key);
+}
+
+void CStrategyBase::OnTimer(UINT nIDEvent)
+ {
+    OnTimer((int)nIDEvent);
+}

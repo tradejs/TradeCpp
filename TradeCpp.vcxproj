@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChartMan.h" />
+    <ClInclude Include="CppSQLite3.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="GoldenCrossStrategy.h" />
     <ClInclude Include="LoginDialog.h" />
@@ -113,7 +114,10 @@
     <ClInclude Include="PropertiesWnd.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="sltime.h" />
+    <ClInclude Include="sqlite3.h" />
+    <ClInclude Include="sqlite3ext.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Storage.h" />
     <ClInclude Include="StrategyBase.h" />
     <ClInclude Include="talib\ta_abstract.h" />
     <ClInclude Include="talib\ta_common.h" />
@@ -132,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChartMan.cpp" />
+    <ClCompile Include="CppSQLite3.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="GoldenCrossStrategy.cpp" />
     <ClCompile Include="LoginDialog.cpp" />
@@ -140,10 +145,12 @@
     <ClCompile Include="Packet.cpp" />
     <ClCompile Include="PropertiesWnd.cpp" />
     <ClCompile Include="sltime.cpp" />
+    <ClCompile Include="sqlite3.c" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Storage.cpp" />
     <ClCompile Include="StrategyBase.cpp" />
     <ClCompile Include="talib\ta_ACOS.c" />
     <ClCompile Include="talib\ta_AD.c" />

@@ -199,18 +199,13 @@ public:
 
 private: 
 	list<unique_ptr<CChart> > chartList; 
-	list<unique_ptr<CChart> > customChartList; 
 
 public: 
 	int AddChart(const CString& code, int period, CANDLE_UNIT unit, int strategyId); 
 	void DelChart(int chartId, int strategyId);
 	CChart* GetChart(int chartId);
 	CChart* GetChart(const CString& code, int period, CANDLE_UNIT unit);
-	int AddCustomChart(const CString& chartName, int period, CANDLE_UNIT unit, int strategyId);
-	void DelCustomChart(const CString& chartName, int strategyId);
-	CChart* GetCustomChart(const CString& chartName);
-	CChart* GetCustomChart(int chartId);
 
 	void OnTick(const CString code, const sltime& time, double price, long volume); 
 };
-
+static CChartMan gChartMan;
