@@ -65,6 +65,8 @@ public:
 
 	
 	void OnStrategySelected(CStrategyBase* pStrategy);
+	afx_msg void OnStart();
+	afx_msg void OnStop();
 };
 
 

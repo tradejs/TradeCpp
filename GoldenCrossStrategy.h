@@ -26,16 +26,19 @@ public:
 	//여기에 필요한 변수를 선언합니다.
 	double longPeriod;
 	double shortPeriod;
-	double entryAmount;
+	double entryQuantity;
+	
 
-	CChart* pSSE30Chart;
+	CChart* pFUChart;
+	BOOL isEntered;
+	int FuOrder(CString code, int quantity, double price);
 
 	//변수 설정 윈도우에서 사용하는 정보를 기록합니다.
 	void LoadAllProperty(void)
 	{
 		MakeVarProperty(&longPeriod, "장기 이평", "골든 크로스에 사용할 장기 이동평균 계수.");
 		MakeVarProperty(&shortPeriod, "단기 이평", "골든 크로스에 사용할 단기 이동평균 계수.");
-		MakeVarProperty(&entryAmount, "진입 금액", "한번에 진입할 금액을 설정.");
+		MakeVarProperty(&entryQuantity, "진입 수량", "한번에 진입할 수량을 설정.");
 	}
 };
 

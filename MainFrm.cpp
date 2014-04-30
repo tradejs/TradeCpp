@@ -36,6 +36,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_VIEW_OUTPUT, &CMainFrame::OnViewOutput)
 	ON_COMMAND(ID_VIEW_PROPERTY, &CMainFrame::OnViewProperty)
 //	ON_WM_DESTROY()
+ON_COMMAND(ID_START, &CMainFrame::OnStart)
+ON_COMMAND(ID_STOP, &CMainFrame::OnStop)
 END_MESSAGE_MAP()
 
 // CMainFrame »ý¼º/¼Ò¸ê
@@ -303,4 +305,16 @@ void CMainFrame::NormalLog(CString log)
 void CMainFrame::SignalLog(CString log)
 {
 	m_wndOutput.SignalLog(log);
+}
+
+void CMainFrame::OnStart()
+{
+	m_wndProperties.UpdateValue();
+	((CTradeCppView*)GetActiveView())->OnStart();
+}
+
+
+void CMainFrame::OnStop()
+{
+	((CTradeCppView*)GetActiveView())->OnStop();
 }

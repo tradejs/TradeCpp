@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Packet.h"
 
+
 CString GetStringData( char* psData, int nSize)
 {
 	CString strData(psData, nSize);
@@ -30,10 +31,208 @@ double GetDotDoubleData( char* psData, int nSize)
 	return atof(strData);
 }
 
-StockSiseResponse Packet::MakeStockSiseResponse(LPRECV_PACKET packet)
-{
-	ASSERT(strcmp(packet->szTrCode, NAME_t1102) == 0);
+int g_year = 0;
+int g_month = 0;
+int g_day = 0;
 
-	StockSiseResponse response;
-	return response;
+void GetYMD()
+{
+	sltime now = sltime::GetCurrentSlTime();
+	g_year = now.GetYear();
+	g_month = now.GetMonth();
+	g_day = now.GetDay();
+}
+
+sltime GetTime(char* time)
+{
+	if (g_year == 0)
+		GetYMD();
+
+	int hour;
+	int min;
+	int sec;
+
+	char buf[4] = { 0 };
+	memcpy(buf, time, 2);
+	hour = atoi(buf);
+
+	memcpy(buf, time +2, 2);
+	min = atoi(buf);
+
+	memcpy(buf, time + 4, 2);
+	sec = atoi(buf);
+
+	return sltime(g_year, g_month, g_day, hour, min, sec);	
+}
+
+
+void SetPacketData( char* psData, int nSize, const char* pszSrc, int nType, int nDotPos )
+{
+	//-----------------------------------------------------------------------
+	// 문자열
+	if( nType == DATA_TYPE_STRING )
+	{
+		// 왼쪽 정렬
+		// 뒤의 빈자리는 ' ' 로 채움
+
+		// 버퍼크기가 원 데이터보다 작다면 데이터는 짤려야 하므로 에러발생
+		int nSrcLen = strlen( pszSrc );
+
+		// 먼저 Space를 채우고
+		FillMemory( psData, nSize, ' ' );
+
+		// 앞에부터 데이터를 넣는다.
+		// 원데이터가 크다면 뒷부분을 버린다.
+		CopyMemory( psData, pszSrc, min( nSize, nSrcLen ) );
+	}
+
+	//-----------------------------------------------------------------------
+	// 정수
+	else if( nType == DATA_TYPE_LONG )
+	{
+		// 오른쪽 정렬
+		// 앞의 빈자리는 '0' 으로 채움
+
+		// 버퍼크기가 원 데이터보다 작다면 데이터는 짤려야 하므로 에러발생
+		int nSrcLen = strlen( pszSrc );
+		ATLASSERT( nSize >= nSrcLen );
+
+		// 먼저 0 으로 채우고
+		FillMemory( psData, nSize, '0' );
+
+		// 뒤에서부터 데이터를 넣는다.
+		if( nSize >= nSrcLen )
+		{
+			CopyMemory( psData+nSize-nSrcLen, pszSrc, nSrcLen );
+		}
+		// 원데이터가 크다면 원데이터의 뒷부분을 버린다.
+		else
+		{
+			CopyMemory( psData, pszSrc, nSize );
+		}
+	}
+
+	//-----------------------------------------------------------------------
+	// 실수 : 소숫점을 찍지 않는다.
+	else if( nType == DATA_TYPE_FLOAT )
+	{
+		// 소숫점 위치를 기준으로 정렬
+		// 소숫점을 찍지 않으며 정수부의 빈자리와 소수부의 빈자리는 0으로 채움
+
+//		int nSrcLen = strlen( pszSrc );
+
+		// 먼저 0 으로 채우고
+		FillMemory( psData, nSize, '0' );
+
+		// 원데이터에서 소숫점의 위치를 찾아서
+		// 원데이터의 정수부의 길이와 소수부의 길이를 구한다.
+		int nSrcIntLen;
+		int nSrcDotLen;
+		const char* psz = _tcschr( pszSrc, '.' );
+		if( psz == NULL )		// 소수부가 없다.
+		{
+			nSrcIntLen = strlen( pszSrc );
+			nSrcDotLen = 0;
+		}
+		else					// 소수부가 있다.
+		{
+			nSrcIntLen = psz - pszSrc;
+			nSrcDotLen = strlen( pszSrc ) - nSrcIntLen - 1;
+		}
+
+		// 정수부를 넣는다.
+		if( nSize-nDotPos >= nSrcIntLen )
+		{
+			CopyMemory( psData+nSize-nDotPos-nSrcIntLen, pszSrc, nSrcIntLen );
+		}
+		else
+		{
+			// 원데이터의 정수부 길이가 더 긴 경우 정수부의 뒷자리는 삭제된다.
+			ATLASSERT( FALSE );
+			CopyMemory( psData, pszSrc, nSize-nDotPos );
+		}
+
+		// 소수부를 넣는데 원데이터의 소수부 길이가 더 긴 경우 소수부의 뒷자리는 삭제된다.
+		ATLASSERT( nDotPos >= nSrcDotLen );
+		CopyMemory( psData+nSize-nDotPos, pszSrc + strlen( pszSrc ) - nSrcDotLen, min( nDotPos, nSrcDotLen ) );
+	}
+
+	//-----------------------------------------------------------------------
+	// 실수 : 소숫점을 포함
+	else if( nType == DATA_TYPE_FLOAT_DOT )
+	{
+		// 소숫점 위치를 기준으로 정렬
+		// 소숫점을 찍지 않으며 정수부의 빈자리와 소수부의 빈자리는 0으로 채움
+		
+		//int nSrcLen = strlen( pszSrc );
+		
+		// 먼저 0 으로 채우고
+		FillMemory( psData, nSize, '0' );
+		
+		// 원데이터에서 소숫점의 위치를 찾아서
+		// 원데이터의 정수부의 길이와 소수부의 길이를 구한다.
+		int nSrcIntLen;
+		int nSrcDotLen;
+		const char* psz = _tcschr( pszSrc, '.' );
+		if( psz == NULL )		// 소수부가 없다.
+		{
+			nSrcIntLen = strlen( pszSrc );
+			nSrcDotLen = 0;
+		}
+		else					// 소수부가 있다.
+		{
+			nSrcIntLen = psz - pszSrc;
+			nSrcDotLen = strlen( pszSrc ) - nSrcIntLen - 1;
+		}
+		
+		// 정수부를 넣는다.
+		if( nSize-nDotPos-1 >= nSrcIntLen )
+		{
+			CopyMemory( psData+nSize-nDotPos-nSrcIntLen-1, pszSrc, nSrcIntLen );
+		}
+		else
+		{
+			// 원데이터의 정수부 길이가 더 긴 경우 정수부의 뒷자리는 삭제된다.
+			ATLASSERT( FALSE );
+			CopyMemory( psData, pszSrc, nSize-nDotPos-1 );
+		}
+
+		// 소숫점을 찍는다.
+		psData[nSize-nDotPos-1] = '.';
+		
+		// 소수부를 넣는데 원데이터의 소수부 길이가 더 긴 경우 소수부의 뒷자리는 삭제된다.
+		ATLASSERT( nDotPos >= nSrcDotLen );
+		CopyMemory( psData+nSize-nDotPos, pszSrc + strlen( pszSrc ) - nSrcDotLen, min( nDotPos, nSrcDotLen ) );
+	}
+}
+
+
+void SetPacketData( char* psData, int nSize, long data)
+{
+	// 오른쪽 정렬
+	// 앞의 빈자리는 '0' 으로 채움
+
+	// 버퍼크기가 원 데이터보다 작다면 데이터는 짤려야 하므로 에러발생
+	//string stc = misc::itoa(data);
+	char buf[32] = {0};
+	sprintf_s(buf, 32, "%d", data);
+
+	int nLen = strlen(buf);
+	ATLASSERT( nSize >= nLen );
+
+	// 먼저 0 으로 채우고
+	FillMemory( psData, nSize, '0' );
+
+	// 뒤에서부터 데이터를 넣는다.
+	if( nSize >= nLen )
+	{
+		CopyMemory( psData+nSize-nLen, buf, nLen );
+	}
+	// 원데이터가 크다면 원데이터의 뒷부분을 버린다.
+	else
+	{
+		CopyMemory( psData, buf, nSize );
+	}
+
+
 }

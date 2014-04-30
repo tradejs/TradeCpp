@@ -26,6 +26,8 @@ public:
 	CTradeCppDoc* GetDocument() const;
 
 	vector<CStrategyBase*> strategies;
+	void OnStart();
+	void OnStop();
 
 // 작업입니다.
 public:

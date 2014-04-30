@@ -52,6 +52,7 @@ protected:
 public:
 	virtual ~CPropertiesWnd();
 	void SetStrategy(CStrategyBase* pStrategy);
+	void UpdateValue();
 
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -71,7 +72,7 @@ protected:
 
 	void InitPropList();
 	void SetPropListFont();
-	void UpdateValue();
+	
 
 
 	int m_nComboHeight;

@@ -46,8 +46,8 @@ public:
 
 	//실시간/조회 데이터 요청 함수
 	int Request(LPCTSTR pszCode, LPVOID lpData, int nDataSize, BOOL bNext, LPCTSTR pszNextKey);
-	BOOL AdviseRealData(CRequest* request);
-	BOOL UnadviseRealData(CRequest* request);
+	BOOL AdviseRealData(LPCTSTR pszTrNo, LPCTSTR pszData, int nDataUnitLen);
+	BOOL UnadviseRealData(LPCTSTR pszTrNo, LPCTSTR pszData, int nDataUnitLen);
 
 	//객체간 데이터 공유 기능
 	void SetGlobal(string key, const CString data);

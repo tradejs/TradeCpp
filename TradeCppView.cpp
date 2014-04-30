@@ -219,3 +219,22 @@ void CTradeCppView::OnDestroy()
 		delete p;
 	}
 }
+
+
+void CTradeCppView::OnStart()
+{
+	for (int i = 0; i < strategies.size(); i++)
+	{
+		CStrategyBase* pStrategy = strategies.at(i);
+		pStrategy->OnStart();
+	}
+}
+
+void CTradeCppView::OnStop()
+{
+	for (int i = 0; i < strategies.size(); i++)
+	{
+		CStrategyBase* pStrategy = strategies.at(i);
+		pStrategy->OnStop();
+	}
+}
